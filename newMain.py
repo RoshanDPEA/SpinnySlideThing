@@ -3,25 +3,45 @@
 #import libraries
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+
+#https://stackoverflow.com/questions/40121382/control-chromium-kiosk-mode-url-from-python
+chrome_options = Options()
+chrome_options.add_argument("--kiosk")
 
 #open driver
-driver = webdriver.Firefox()
+#https://chromedriver.chromium.org/getting-started
+driver = webdriver.Chrome(executable_path='/tmp/chromedriver', chrome_options=chrome_options)
 
-#(optional) save window handle
-#tab_before = driver.window_handles[0]
 
-#go to wikipedia page
-web_url = "https://en.wikipedia.org/wiki/Adam_Bede"
+#go to website where images are
+web_url = "https://en.wikipedia.org/wiki/Image"
 driver.get(web_url)
 
-#find image link
+#search for image by looking for keyword
 im_link = driver.find_element_by_class_name("image")
-
+im_link.click()
 #open in new tab
-im_link.send_keys(Keys.CONTROL+Keys.RETURN)
+#im_link.send_keys(Keys.CONTROL+Keys.RETURN)
 
-#(optional) save new window handle
-#tab_after = driver.window_handles[0]
+#open new kiosk tab https://www.tutorialspoint.com/how-to-close-active-current-tab-without-closing-the-browser-in-selenium-python
 
-#(optional) switch back to first tab:
-#driver.switch_to_window(tab_before)
+#identify element
+m = driver.find_element_by_link_text("Help")
+m.click()
+#obtain parent window handle
+p= driver.window_handles[0]
+#obtain browser tab window
+c = driver.window_handles[1]
+#switch to tab browser
+driver.switch_to.window(c)
+print("Page title :")
+print(driver.title)
+#close browser tab window
+driver.close()
+#switch to parent window
+driver.switch_to.window(p)
+print("Current page title:")
+print(driver.title)
+#close browser parent window
+driver.quit()
