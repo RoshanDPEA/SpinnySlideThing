@@ -1,6 +1,7 @@
 #stackoverflow https://stackoverflow.com/questions/37354868/how-can-i-open-a-image-in-another-tab-using-selenium-for-python
 
 #import libraries
+#import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -9,27 +10,38 @@ import threading
 import time
 from time import sleep
 
+#guide for chrome driver install https://techenum.com/install-raspberrypi-selenium-chromedriver/
+
+#wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip
+
+#multiple kiosk windows https://stackoverflow.com/questions/74928751/how-can-i-open-2-chrome-windows-in-kiosk-mode-on-2-monitors-with-webdriver-in-py
+
 def imageUpdate():
     # https://stackoverflow.com/questions/40121382/control-chromium-kiosk-mode-url-from-python
     chrome_options1 = Options()
+    #chrome_options1.add_argument('--headless')
+    #chrome_options1.add_argument('--no-sandbox')
+    #chrome_options1.add_argument('--disable-dev-shm-usage')
+
     chrome_options1.add_argument("--kiosk")
+    chrome_options1.binary_location = "/usr/bin/chromium-browser"
 
     # open driver
     # https://chromedriver.chromium.org/getting-started
-    driver1 = webdriver.Chrome(executable_path='/home/student/Documents/chromedriver', chrome_options=chrome_options1)
+    driver1 = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options1)
 
     driver1.set_window_position(2000, 0)
 
     # go to website where images are
-    web_url1 = "https://en.wikipedia.org/wiki/Image"
+    web_url1 = "https://www.google.com/chrome/?&brand=CHWL&utm_campaign=en&utm_source=en-et-na-us-chrome-bubble&utm_medium=et"
     driver1.get(web_url1)
 
     # https://stackoverflow.com/questions/37354868/how-can-i-open-a-image-in-another-tab-using-selenium-for-python
     # search for image by looking for keyword
-    im_link1 = driver1.find_element_by_class_name("image")
-    # im_link.click()
+    #im_link1 = driver1.find_element_by_class_name("image")
+    #im_link.click()
     # open in new tab
-    im_link1.send_keys(Keys.CONTROL + Keys.RETURN)
+    #im_link1.send_keys(Keys.CONTROL + Keys.RETURN)
 
     # open new kiosk tab
     # #https://www.tutorialspoint.com/how-to-close-active-current-tab-without-closing-the-browser-in-selenium-python
@@ -37,16 +49,15 @@ def imageUpdate():
     # choose where to open tab
     # https://stackoverflow.com/questions/3816073/in-a-multi-monitor-display-environment-how-do-i-tell-selenium-which-display-to
     # have a second thread control the second monitor
-    driver1.set_window_position(2000, 0)
 
     # identify element
-    # m = driver.find_element_by_link_text("Help")
-    # m.click()
+    #m = driver.find_element_by_link_text("Help")
+    #m.click()
     # obtain parent window handle
 
     # https://www.tutorialspoint.com/how-to-close-active-current-tab-without-closing-the-browser-in-selenium-python closing tabs
-    p1 = driver1.window_handles[1]
-    driver1.switch_to.window(p1)
+    #p1 = driver1.window_handles[1]
+    #driver1.switch_to.window(p1)
 
     while True:
         sleep(15)
@@ -75,23 +86,34 @@ def imageUpdate():
 
 #https://stackoverflow.com/questions/40121382/control-chromium-kiosk-mode-url-from-python
 chrome_options = Options()
+#chrome_options.add_argument('--headless')
+#chrome_options.add_argument('--no-sandbox')
+#chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument("--kiosk")
+
+chrome_options.binary_location = "/usr/bin/chromium-browser"
 
 #open driver
 #https://chromedriver.chromium.org/getting-started
-driver = webdriver.Chrome(executable_path='/home/student/Documents/chromedriver', chrome_options=chrome_options)
+driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
 
-
+#driver.set_window_position(2000, 0)
 #go to website where images are
-web_url = "https://en.wikipedia.org/wiki/Image"
+#driver.get("https://www.google.com")
+web_url = "https://www.google.com/chrome/?&brand=CHWL&utm_campaign=en&utm_source=en-et-na-us-chrome-bubble&utm_medium=et"
 driver.get(web_url)
+
+print("going to website")
+
+
 
 #https://stackoverflow.com/questions/37354868/how-can-i-open-a-image-in-another-tab-using-selenium-for-python
 #search for image by looking for keyword
-im_link = driver.find_element_by_class_name("image")
+print("finding image")
+#im_link = driver.find_element_by_class_name("image")
 #im_link.click()
 #open in new tab
-im_link.send_keys(Keys.CONTROL+Keys.RETURN)
+#im_link.send_keys(Keys.CONTROL+Keys.RETURN)
 
 #open new kiosk tab
 # #https://www.tutorialspoint.com/how-to-close-active-current-tab-without-closing-the-browser-in-selenium-python
@@ -106,11 +128,11 @@ im_link.send_keys(Keys.CONTROL+Keys.RETURN)
 #obtain parent window handle
 
 #https://www.tutorialspoint.com/how-to-close-active-current-tab-without-closing-the-browser-in-selenium-python closing tabs
-p= driver.window_handles[0]
-driver.switch_to.window(p)
+#p= driver.window_handles[0]
+#driver.switch_to.window(p)
 
-driver.switch_to.window(p)
-driver.close()
+#driver.switch_to.window(p)
+#driver.close()
 
 
 
